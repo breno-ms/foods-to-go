@@ -1,23 +1,8 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { ArrowRightIcon } from 'react-native-heroicons/outline'
-import ResturantCard from './resturantCard'
-import { getFeaturedResturantById } from '../api'
-import * as Icon from "react-native-feather";
-import { themeColors } from '../theme'
+import React from 'react';
+import { View, Text, ScrollView } from 'react-native';
+import RestaurantCard from './resturantCard';
 
-export default function FeatureRow({id, title, description, resturants}) {
-
-  // const [resturants, setResturants] = useState([]);
-
-  useEffect(() => {
-    // getFeaturedResturantById(id).then(data=>{
-    //   // console.log('got data: ',data);
-    //   setResturants(data?.resturants);
-    // })
-  }, [id])
-  console.log(resturants);
-  
+export default function FeatureRow({ id, title, description, restaurants }) {
   return (
     <View>
       <View className="flex-row justify-between items-center px-4">
@@ -27,45 +12,36 @@ export default function FeatureRow({id, title, description, resturants}) {
             {description}
           </Text>
         </View>
-        
-        <TouchableOpacity>
-          <Text style={{color: themeColors.text}} className="font-semibold">See All</Text>
-        </TouchableOpacity>
       </View>
-
-      
-
       <ScrollView
-        horizontal
+        vertical
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-            paddingHorizontal:15,
+          alignItems: 'center',
         }}
         className="overflow-visible py-5"
-       >
+      >
         {
-          resturants.map(resturant=>{
-
+          restaurants.map(restaurant => {
             return (
-                <ResturantCard
-                  key={resturant._id}
-                  id={resturant._id}
-                  imgUrl={resturant?.image}
-                  title={resturant.name}
-                  rating={resturant.rating}
-                  type={resturant.type?.name}
-                  address="123 main street"
-                  description={resturant.description}
-                  dishes={resturant.dishes}
-                  lng={resturant.lng}
-                  lat={resturant.lat}
-
-              />    
+              <RestaurantCard
+                key={restaurant.id}
+                id={restaurant.id}
+                imgUrl={restaurant.image}
+                title={restaurant.name}
+                rating={restaurant.stars}
+                type={restaurant.category}
+                address={restaurant.address}
+                description={restaurant.description}
+                dishes={restaurant.dishes}
+                lng={restaurant.lng}
+                lat={restaurant.lat}
+                style={{ width: '90%' }}
+              />
             )
           })
-        }           
-       </ScrollView>
-    
+        }
+      </ScrollView>
     </View>
-  )
+  );
 }
